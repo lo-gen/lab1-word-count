@@ -1,0 +1,24 @@
+def tokenize(lines):
+    words = []
+    for line in lines:
+        start = 0
+
+        while start < len(line):
+            if start < len(line) and line[start].isspace():
+                pass
+            elif line[start].isalpha():
+                end = start 
+                while end < len(line) and line[end].isalpha():
+                    end = end + 1
+                words.append(line[start:end].lower())
+                start = end - 1
+            elif line[start].isdigit():
+                end=start 
+                while end < len(line) and line[end].isdigit():
+                    end = end + 1
+                words.append(line[start:end])
+                start = end - 1
+            else:
+                words.append(line[start])
+            start = start + 1
+    return words
