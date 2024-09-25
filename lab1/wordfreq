@@ -1,40 +1,39 @@
-def tokenize(lines):
-    words = []
-    for line in lines:
-        start = 0
-
-        while start < len(line):
-            if start < len(line) and line[start].isspace():
-                start = start + 1
-            elif line[start].isalpha():
-                end = start 
-                while end < len(line) and line[end].isalpha():
-                    end = end + 1
-                words.append(line[start:end].lower())
-                start = end
-            elif line[start].isdigit():
+def tokenize(lines):                #definerar funktionen "tokenize" med variabeln "lines" som är texten som ska kollas
+    words = []                      #skapar en tom lista "words" som vi ska lägga de färdiga orden i
+    for line in lines:              #skapar en for loop för att gå igenom alla tecken i texten "lines"
+        start = 0                       #skapar en variabel "start" och sätter startvärdet till 0 (där vi är i texten) som ska användas för att se vart i texten vi är
+        while start < len(line):        #skapar en while loop som ska köra så län
+            if start < len(line) and line[start].isspace():         #kollar ifall tecknet som den är på i "lines" är ett blanksteg
+                start = start + 1                                   #om det är ett blanksteg, hoppar till nästa tecken
+            elif line[start].isalpha():                             #kollar ifall tecknet som den är på i "lines" är en bokstav
+                end = start                                         #skapar ett slutvärde som visar vart ordet tar slut
+                while end < len(line) and line[end].isalpha():      #"end < len(line)" gör så att programmet inte krashar ifall man kommer utanför strängen
+                    end = end + 1                                   #så länge nästa också är en bokstav så ökar man slutvärdet
+                words.append(line[start:end].lower())               #skickar det färdiga ordet ill listan "words" och gör det till bara små bokstäver
+                start = end                                         #sätter startvärdet til stopvärdet för att börja nästa där ordet slutade
+            elif line[start].isdigit():                             #gör samma sak som ovan fast med siffror
                 end=start 
                 while end < len(line) and line[end].isdigit():
                     end = end + 1
                 words.append(line[start:end])
                 start = end
-            else:
-                words.append(line[start])
-                start = start + 1
-    return words
+            else:                                           #övriga tecken är symboler
+                words.append(line[start])                   #lägger in dem enskilt då de var så de skulle klassas
+                start = start + 1                           #går till nästa tecken
+    return words                            #när hela texten lästs av får man tillbaka listan med alla ord
 
-def countWords(words,stopWords):
-    frequencies = {}
-    for word in words:
-        if word not in stopWords:
-            if word not in frequencies:
-                frequencies[word] = 1
+def countWords(words,stopWords):            #definerar funktionen "countWords" med variablerna words och storWords. stopWords är de tecken och ord som inte ska räknas med           
+    frequencies = {}                        #skapar en tom dictionary 
+    for word in words:                      #kollar igenom alla element i listan words
+        if word not in stopWords:               #om elementet(ordet) inte finns med i stopWords 
+            if word not in frequencies:             #och om elementet(ordet) inte finns i vårt dictionary
+                frequencies[word] = 1                   #sätt startvärdet till 1 (första gången som man stöter på ordet)
             else:
-                frequencies[word] += 1
-    return frequencies
+                frequencies[word] += 1                  #annars ökar värdet med 1 för att veta hur många gånger som ordet förekommer
+    return frequencies                      #ger tilbaka en dictionary som visar ordet och hur många gånger det förekommer
 
-def printTopMost(frequencies,n):
-    sort = sorted(frequencies.items(), key=lambda x: -x[1])
-    topWords = sort[0:n]      
-    for word,freq in topWords:
-        print(word.ljust(20) + str(freq).rjust(5))
+def printTopMost(frequencies,n):            #definerar funktionen printTopMost för att visa de mest förekommande orden, n är antalet som ska skrivas ut
+    sort = sorted(frequencies.items(), key=lambda x: -x[1])             #anväder sort funktionen på frequencies där items delar upp den i fallande ordning
+    topWords = sort[0:n]                                                #räknar upp de n mest förekommande orden   
+    for word,freq in topWords:                                          #e foor loop där den skriver upp ett nytt ord på en ny rad
+        print(word.ljust(20) + str(freq).rjust(5))                      #gör så att orden och siffrorna ställs upp ordnat under varandra
