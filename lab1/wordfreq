@@ -5,22 +5,22 @@ def tokenize(lines):
 
         while start < len(line):
             if start < len(line) and line[start].isspace():
-                pass
+                start = start + 1
             elif line[start].isalpha():
                 end = start 
                 while end < len(line) and line[end].isalpha():
                     end = end + 1
                 words.append(line[start:end].lower())
-                start = end - 1
+                start = end
             elif line[start].isdigit():
                 end=start 
                 while end < len(line) and line[end].isdigit():
                     end = end + 1
                 words.append(line[start:end])
-                start = end - 1
+                start = end
             else:
                 words.append(line[start])
-            start = start + 1
+                start = start + 1
     return words
 
 def countWords(words,stopWords):
